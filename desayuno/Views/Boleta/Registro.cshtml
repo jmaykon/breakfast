@@ -1,0 +1,453 @@
+﻿
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+      integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+
+
+<div class="container mx-auto px-4 py-8">
+    <!-- Progress Steps - Modo oscuro -->
+    <div class="mb-8">
+        <div class="flex items-center justify-center space-x-4">
+            <div class="flex items-center">
+                <div id="step-indicator-1" class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300">
+                    1
+                </div>
+                <span class="ml-2 text-sm font-medium text-white">Datos Básicos</span>
+            </div>
+            <div class="flex-1 h-px bg-slate-600 mx-4"></div>
+            <div class="flex items-center">
+                <div id="step-indicator-2" class="w-10 h-10 bg-slate-700 text-slate-400 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300">
+                    2
+                </div>
+                <span class="ml-2 text-sm font-medium text-slate-400">Contrato</span>
+            </div>
+            <div class="flex-1 h-px bg-slate-600 mx-4"></div>
+            <div class="flex items-center">
+                <div id="step-indicator-3" class="w-10 h-10 bg-slate-700 text-slate-400 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300">
+                    3
+                </div>
+                <span class="ml-2 text-sm font-medium text-slate-400">Distrito</span>
+            </div>
+            <div class="flex-1 h-px bg-slate-600 mx-4"></div>
+            <div class="flex items-center">
+                <div id="step-indicator-4" class="w-10 h-10 bg-slate-700 text-slate-400 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300">
+                    4
+                </div>
+                <span class="ml-2 text-sm font-medium text-slate-400">Vista Previa</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Container - Modo oscuro -->
+    <div class="max-w-6xl mx-auto bg-slate-800 rounded-2xl shadow-xl border border-slate-700">
+        <form id="wizard-form" class="p-8">
+            <!-- Step 1 -->
+            <div id="step-1" class="step-content">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-white mb-2">Datos Básicos</h3>
+                    <p class="text-slate-400">Ingrese la información principal de la carga</p>
+                </div>
+                
+                <div class="space-y-6">
+                    
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="fechaDespachoBoleta" class="block mb-2 text-sm font-medium text-white">Fecha Despacho *</label>
+                            <input type="date" id="fechaDespachoBoleta" required 
+                                class="bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 transition-colors duration-200" />
+                            <div class="error-message text-red-400 text-sm mt-1 hidden">Este campo es obligatorio.</div>
+                        </div>
+                        <div>
+                            <label for="fechaEntregaBoleta" class="block mb-2 text-sm font-medium text-white">Fecha Entrega *</label>
+                            <input type="date" id="fechaEntregaBoleta" required 
+                                class="bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 transition-colors duration-200" />
+                            <div class="error-message text-red-400 text-sm mt-1 hidden">Este campo es obligatorio.</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="flex justify-end mt-8">
+                    <button type="button" class="next-btn px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 transition-all duration-200">
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="step-2" class="step-content hidden">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-white mb-2">Información del Contrato</h3>
+                    <p class="text-slate-400">Seleccione el contrato y revise los productos</p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label for="codContratoBoleta" class="block mb-2 text-sm font-medium text-white">Código de Contrato *</label>
+                        <select id="codContratoBoleta" required 
+                            class="js-select-boleta-contrato bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3">
+                            <option value="">Seleccione un contrato</option>
+                        </select>
+                        <div class="error-message text-red-400 text-sm mt-1 hidden">Este campo es obligatorio.</div>
+                    </div>
+                    
+                    <div>
+                        <label for="cod_socio_neg_boleta" class="block mb-2 text-sm font-medium text-white">Código Socio de Negocio *</label>
+                        <input type="text" id="cod_socio_neg_boleta" required disabled 
+                            class="bg-slate-700 border border-slate-600 text-slate-400 text-sm rounded-lg block w-full p-3 cursor-not-allowed" />
+                    </div>
+                    
+                    <div class="bg-slate-700 rounded-lg p-4 border border-slate-600">
+                        <h4 class="text-lg font-semibold text-white mb-4">Productos del Contrato</h4>
+                        <div class="overflow-x-auto">
+                            <table id="tabla-productos-contrato" class="w-full text-sm text-left text-slate-400">
+                                <thead class="text-xs text-slate-300 uppercase bg-slate-600 rounded-t-lg">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 rounded-tl-lg">Seleccionar</th>
+                                        <th scope="col" class="px-4 py-3">Codigo Producto</th>
+                                        <th scope="col" class="px-4 py-3">Nombre Producto</th>
+                                        <th scope="col" class="px-4 py-3">Codigo SAP</th>
+                                        <th scope="col" class="px-4 py-3">Nombre SAP</th>
+                                        <th scope="col" class="px-4 py-3 rounded-tr-lg">Precio</th>
+                                        <th scope="col" class="px-4 py-3">Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-slate-800 divide-y divide-slate-600">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-8">
+                    <button type="button" class="prev-btn px-6 py-3 text-sm font-medium text-white bg-slate-700 border border-slate-600 rounded-lg hover:bg-slate-600 focus:ring-4 focus:outline-none focus:ring-slate-800 transition-all duration-200">
+                        Volver
+                    </button>
+                    <button type="button" class="next-btn px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 transition-all duration-200">
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="step-3" class="step-content hidden">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-white mb-2">Información del Distrito</h3>
+                    <p class="text-slate-400">Seleccione el distrito y revise las unidades educativas</p>
+                </div>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label for="codDistritoBoleta" class="block mb-2 text-sm font-medium text-white">Código de Distrito *</label>
+                        <select id="codDistritoBoleta" required 
+                            class="js-select-boleta-distrito bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3">
+                            <option value="">Seleccione un distrito</option>
+                        </select>
+                        <div class="error-message text-red-400 text-sm mt-1 hidden">Este campo es obligatorio.</div>
+                    </div>
+                    
+                    <div class="bg-slate-700 rounded-lg p-4 border border-slate-600">
+                        <h4 class="text-lg font-semibold text-white mb-4">Unidades Educativas</h4>
+                        <div class="overflow-x-auto">
+                            <table id="tabla-distritos-boletas" class="w-full text-sm text-left text-slate-400">
+                                <thead class="text-xs text-slate-300 uppercase bg-slate-600 rounded-t-lg">
+                                    <tr>
+                                        <th scope="col" class="px-4 py-3 rounded-tl-lg">Código U.E</th>
+                                        <th scope="col" class="px-4 py-3">Dirección</th>
+                                        <th scope="col" class="px-4 py-3 rounded-tr-lg">Raciones Predefinidas</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-slate-800 divide-y divide-slate-600">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-8">
+                    <button type="button" class="prev-btn px-6 py-3 text-sm font-medium text-white bg-slate-700 border border-slate-600 rounded-lg hover:bg-slate-600 focus:ring-4 focus:outline-none focus:ring-slate-800 transition-all duration-200">
+                        Volver
+                    </button>
+                    <button type="button" class="next-btn px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-800 transition-all duration-200">
+                        Siguiente
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div id="step-4" class="step-content hidden">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-white mb-2">Vista Previa</h3>
+                    <p class="text-slate-400">Revise las boletas generadas antes de finalizar</p>
+                </div>
+                
+                <div class="bg-slate-700 rounded-lg p-6 border border-slate-600">
+                    <h4 class="text-lg font-semibold text-white mb-4">Boletas Generadas</h4>
+                    <div id="preBoleta" class="space-y-4">
+                        <!-- Vista previa de boletas se generará aquí -->
+                    </div>
+                </div>
+                
+                <div class="flex justify-between mt-8">
+                    <button type="button" class="prev-btn px-6 py-3 text-sm font-medium text-white bg-slate-700 border border-slate-600 rounded-lg hover:bg-slate-600 focus:ring-4 focus:outline-none focus:ring-slate-800 transition-all duration-200">
+                        Volver
+                    </button>
+                    <button type="submit" onclick="cargarBoletas(event);" class="px-6 py-3 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-800 transition-all duration-200">
+                        Finalizar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <!-- Modal -->
+    <div id="preBoletaModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-7xl max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-xl border border-gray-200">
+                <div class="flex items-start justify-between p-6 border-b border-gray-200 rounded-t-2xl">
+                    <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">
+                        Boleta N.-
+                    </h3>
+                    <button type="button" class="modal-close text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center transition-colors duration-200" data-modal-hide="preBoletaModal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="p-6">
+                    <!-- Boleta Content -->
+                    <div class="bg-white p-8 rounded-lg border">
+                        <div class="text-right mb-4">
+                            <h5 class="font-semibold text-gray-800">HORA ENTREGADA:</h5>
+                        </div>
+                        
+                        <div class="grid grid-cols-12 gap-4 mb-8">
+                            <div class="col-span-3"></div>
+                            <div class="col-span-6 text-center">
+                                <div class="space-y-1">
+                                    <h5 class="font-bold text-gray-900">GOBIERNO AUTONOMO MUNICIPAL DE LA PAZ</h5>
+                                    <h5 class="font-bold text-gray-900">ALIMENTO COMPLEMENTARIO ESCOLAR</h5>
+                                    <h5 class="font-bold text-gray-900">PARA UNA VIDA SANA</h5>
+                                    <h5 class="font-bold text-gray-900">ACTA DE ENTREGA Y RECEPCION</h5>
+                                </div>
+                            </div>
+                            <div class="col-span-3">
+                                <div class="space-y-1 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="font-medium">Nro. Acta:</span>
+                                        <span id="nroActaBoletaPrev"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="font-medium">Fecha de Entrega:</span>
+                                        <span id="fechaEntregaBoletaPrev"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="font-medium">Turno:</span>
+                                        <span>T</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="font-medium">Nro. Raciones Inicial:</span>
+                                        <span>0</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="font-medium">Nro. Raciones Primaria:</span>
+                                        <span>0</span>
+                                    </div>
+                                    <div class="flex justify-between font-bold">
+                                        <span>TOTAL RACIONES:</span>
+                                        <span>0</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="font-medium">Nro. Raciones Secundaria:</span>
+                                        <span>0</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="font-medium">Nro. Raciones Especial:</span>
+                                        <span>49</span>
+                                    </div>
+                                    <div class="flex justify-between font-bold">
+                                        <span>TOTAL RACIONES:</span>
+                                        <span>49</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 space-y-2 text-sm">
+                            <div><span class="font-medium">RUTA:</span> 9</div>
+                            <div><span class="font-medium">CODIGO:</span> L-675</div>
+                            <div><span class="font-medium">CENTRO EDUCATIVO:</span> <span id="descripcionBoletaPrev"></span></div>
+                            <div><span class="font-medium">DIRECCION:</span></div>
+                        </div>
+
+                        <div class="mb-6">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="border-b border-gray-300">
+                                        <th class="text-left py-2">FECHA PROG.</th>
+                                        <th class="text-left py-2">LOTE</th>
+                                        <th class="text-left py-2">RACIONES</th>
+                                        <th class="text-left py-2">P/U.</th>
+                                        <th class="text-left py-2">EMPRESA O ASOCIACION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="preBoleta">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mb-8">
+                            <p class="text-sm"><span class="font-medium">OBSERVACIONES:</span> .................................................................................................</p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-8 text-center text-sm">
+                            <div class="space-y-2">
+                                <div class="border-b border-gray-400 pb-1">________________________</div>
+                                <div class="font-medium">ENTREGUE CONFORME PROV.</div>
+                                <div><span class="font-medium">NOMBRE:</span></div>
+                                <div><span class="font-medium">C.I.:</span> __________________</div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="border-b border-gray-400 pb-1">________________________</div>
+                                <div class="font-medium">RECIBI CONFORME C.EDU.</div>
+                                <div><span class="font-medium">NOMBRE:</span></div>
+                                <div><span class="font-medium">C.I.:</span> __________________</div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="border-b border-gray-400 pb-1">________________________</div>
+                                <div class="font-medium">SUPERVISOR SIREMU</div>
+                                <div><span class="font-medium">NOMBRE:</span></div>
+                                <div><span class="font-medium">C.I.:</span> __________________</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-end p-6 border-t border-gray-200 rounded-b-2xl">
+                    <button type="button" class="modal-close px-5 py-2.5 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-colors duration-200">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>  
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+        integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+
+<script>
+        class WizardForm {
+            constructor() {
+                this.currentStep = 1;
+                this.totalSteps = 4;
+                this.init();
+            }
+
+            init() {
+                this.bindEvents();
+                this.showStep(1);
+            }
+
+            bindEvents() {
+                // Next buttons
+                document.querySelectorAll('.next-btn').forEach(btn => {
+                    btn.addEventListener('click', () => this.nextStep());
+                });
+
+                // Previous buttons
+                document.querySelectorAll('.prev-btn').forEach(btn => {
+                    btn.addEventListener('click', () => this.prevStep());
+                });
+
+                
+            }
+
+            validateStep(step) {
+                const stepElement = document.getElementById(`step-${step}`);
+                const inputs = stepElement.querySelectorAll('input[required], select[required]');
+                let isValid = true;
+
+                // Clear previous errors
+                stepElement.querySelectorAll('.error-message').forEach(msg => {
+                    msg.classList.add('hidden');
+                });
+                stepElement.querySelectorAll('input, select').forEach(input => {
+                    input.classList.remove('border-red-500');
+                });
+
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                        input.classList.add('border-red-500');
+                        const errorMsg = input.parentElement.querySelector('.error-message');
+                        if (errorMsg) {
+                            errorMsg.classList.remove('hidden');
+                        }
+                    }
+                });
+
+                return isValid;
+            }
+
+            nextStep() {
+                if (this.validateStep(this.currentStep) && this.currentStep < this.totalSteps) {
+                    this.currentStep++;
+                    this.showStep(this.currentStep);
+                }
+            }
+
+            prevStep() {
+                if (this.currentStep > 1) {
+                    this.currentStep--;
+                    this.showStep(this.currentStep);
+                }
+            }
+
+            showStep(step) {
+                // Hide all steps
+                document.querySelectorAll('.step-content').forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Show current step
+                document.getElementById(`step-${step}`).classList.remove('hidden');
+
+                // Update step indicators
+                for (let i = 1; i <= this.totalSteps; i++) {
+                    const indicator = document.getElementById(`step-indicator-${i}`);
+                    const stepText = indicator.nextElementSibling;
+                    
+                    if (i <= step) {
+                        indicator.classList.remove('bg-gray-300', 'text-gray-500');
+                        indicator.classList.add('bg-primary-600', 'text-white');
+                        stepText.classList.remove('text-gray-500');
+                        stepText.classList.add('text-gray-900');
+                    } else {
+                        indicator.classList.remove('bg-primary-600', 'text-white');
+                        indicator.classList.add('bg-gray-300', 'text-gray-500');
+                        stepText.classList.remove('text-gray-900');
+                        stepText.classList.add('text-gray-500');
+                    }
+                }
+            }
+
+    
+            
+        }
+
+        // Initialize the wizard when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new WizardForm();
+        });
+    </script>
+
+<script src="~/vendor/select2/js/select2.full.min.js"></script>
+<script src="~/js/plugins-init/select2-init.js"></script>
+<script src="~/js/pages/registroBoleta.js"></script>

@@ -1,0 +1,177 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
+    <meta property="og:title" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
+    <meta property="og:description" content="Fillow : Fillow Saas Admin  Bootstrap 5 Template">
+    <meta property="og:image" content="https://fillow.dexignlab.com/xhtml/social-image.png">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- PAGE TITLE HERE -->
+    <title>SPE - Soalpro</title>
+
+    <!-- FAVICONS ICON -->
+    <link rel="shortcut icon" type="image/png" href="~/images/favicon.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Flowbite -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
+
+
+</head>
+
+<body class="h-full bg-gray-900">
+    <div class="min-h-full flex items-center justify-center py-12 px-4">
+        <div class="max-w-md w-full">
+            <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 shadow-2xl">
+
+                <!-- SPE Title Section -->
+                <div class="text-center mb-8">
+                    <div class="mb-6">
+                        <h1 class="text-6xl font-black bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent tracking-wider mb-4 drop-shadow-lg">
+                            SBE
+                        </h1>
+                        <div class="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-700 mx-auto rounded-full mb-4 shadow-lg shadow-blue-500/50"></div>
+                        <p class="text-white/80 text-sm font-semibold uppercase tracking-widest">Sistema de Boletas Escolares</p>
+                    </div>
+                </div>
+
+               
+
+                <!-- Form -->
+                <form asp-controller="Inicio" asp-action="IniciarSesion" method="post" class="needs-validation space-y-6" novalidate>
+                    <!-- Usuario Field -->
+                    <div>
+                        <label for="validationCustom01" class="block text-sm font-medium text-gray-300 mb-2">
+                            Usuario
+                        </label>
+                        <input type="text"
+                               class="form-control w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                               placeholder="Ingrese Usuario"
+                               name="Nombre"
+                               id="validationCustom01"
+                               required>
+
+                        <div class="invalid-feedback hidden mt-2 text-sm text-red-400">
+                            Por favor, introduzca un nombre de usuario.
+                        </div>
+                    </div>
+
+                    <!-- Contraseña Field -->
+                    <div>
+                        <label for="validationCustom02" class="block text-sm font-medium text-gray-300 mb-2">
+                            Contraseña
+                        </label>
+                        <input type="password"
+                               class="form-control w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                               placeholder="***********"
+                               name="contraseña"
+                               id="validationCustom02"
+                               required>
+
+                        <div class="invalid-feedback hidden mt-2 text-sm text-red-400">
+                            Por favor, introduzca una contraseña.
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-4">
+                        <button type="submit"
+                                class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            Ingresar
+                        </button>
+                    </div>
+
+                    <!-- Error Message -->
+                    @if (ViewData["Mensaje"] != null)
+                    {
+                        <div class="mt-6 bg-red-900/50 border border-red-600 p-4 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <svg class="w-5 h-5 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                                        <line x1="15" y1="9" x2="9" y2="15"></line>
+                                        <line x1="9" y1="9" x2="15" y2="15"></line>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-red-200">
+                                        <strong>Error!</strong> @ViewData["Mensaje"]
+                                    </p>
+                                </div>
+                                <div class="ml-auto pl-3">
+                                    <button type="button" class="text-red-400 hover:text-red-300" onclick="this.parentElement.parentElement.parentElement.style.display='none';">
+                                        <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </form>
+
+                <!-- Footer -->
+                <div class="mt-8 text-center">
+                    <p class="text-gray-500 text-xs">
+                        © Todos los derechos reservados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - SAME JAVASCRIPT LOGIC -->
+    <script>
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    // Show/hide feedback messages
+                    const inputs = form.querySelectorAll('input[required]')
+                    inputs.forEach(input => {
+                        const validFeedback = input.parentNode.querySelector('.valid-feedback')
+                        const invalidFeedback = input.parentNode.querySelector('.invalid-feedback')
+
+                        if (input.checkValidity()) {
+                            if (validFeedback) validFeedback.classList.remove('hidden')
+                            if (invalidFeedback) invalidFeedback.classList.add('hidden')
+                        } else {
+                            if (validFeedback) validFeedback.classList.add('hidden')
+                            if (invalidFeedback) invalidFeedback.classList.remove('hidden')
+                        }
+                    })
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+
+    <!-- Flowbite JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+</body>
+</html>

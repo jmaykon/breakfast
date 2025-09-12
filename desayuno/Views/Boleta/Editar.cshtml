@@ -1,0 +1,395 @@
+﻿@model List<desayuno.Models.Boleta>
+
+
+<!-- Aquí puedes mostrar o editar otras propiedades de la boleta -->
+<link rel="stylesheet" href="~/css/step.css">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+      integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+
+<h2>Lista de Boletas</h2>
+
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nro Carga</th>
+            <th>Nro Boleta</th>
+            <th>Nro Contrato</th>
+            <th>Cod Ciudad</th>
+            <th>Cod Distrito</th>
+            <th>Codigo</th>
+            <th>Raciones</th>
+            <th>Cod Producto Contable</th>
+            <th>Cantidad</th>
+            <th>Fecha Creacion</th>
+            <th>Fecha Despacho</th>
+            <th>Fecha Entrega</th>
+            <th>Fecha Consolidado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var boleta in Model)
+        {
+            <tr>
+                <td>@boleta.Id</td>
+                <td>@boleta.NroCarga</td>
+                <td>@boleta.NroBoleta</td>
+                <td>@boleta.NroContrato</td>
+                <td>@boleta.CodCiudad</td>
+                <td>@boleta.CodDistrito</td>
+                <td>@boleta.Codigo</td>
+                <td>@boleta.Raciones</td>
+                <td>@boleta.CodProductoCont</td>
+                <td>@boleta.Cantidad</td>
+                <td>@boleta.FCreacion</td>
+                <td>@boleta.FDespacho</td>
+                <td>@boleta.FEntrega</td>
+                <td>@boleta.FConsolidado</td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container">
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step">
+                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                <p>Paso 1</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p>Paso 2</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p>Paso 3</p>
+            </div>
+            <div class="stepwizard-step">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                <p>Paso 4</p>
+            </div>
+        </div>
+    </div>
+    <form role="form">
+        <div class="row setup-content" id="step-1">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3> Paso 1</h3>
+                    <div class="form-group mb-3">
+                        <label class="control-label">Numero de Carga</label>
+                        <input id="nroActaBoleta" type="number" required class="form-control" placeholder="Ingrese el numero de carga" value="@Model.First().NroCarga" />
+                        <div class="error-message text-danger" style="display:none;">Este campo es obligatorio.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="control-label">Fecha Despacho</label>
+                                <input type="date" id="fechaDespachoBoleta" required class="form-control" value="@(Model.First().FDespacho.ToString("yyyy-MM-dd"))" />
+
+                                <div class="error-message text-danger" style="display:none;">Este campo es obligatorio.</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="control-label">Fecha Entrega</label>
+                                <input id="fechaEntregaBoleta" type="date" required class="form-control" value="@(Model.First().FEntrega.ToString("yyyy-MM-dd"))" />
+                                <div class="error-message text-danger" style="display:none;">Este campo es obligatorio.</div>
+
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group mb-3">
+                                <label class="control-label">Fecha Consolidado</label>
+                                <input id="fechaConsolidadoBoleta" type="date" required class="form-control" value="@(Model.First().FConsolidado?.ToString("yyyy-MM-dd"))" />
+                                <div class="error-message text-danger" style="display:none;">Este campo es obligatorio.</div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Siguiente</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-2">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3>Paso 2</h3>
+                    <div class="form-group mb-3">
+                        <label class="control-label">Codigo de Contrato *</label>
+                        <select class="js-select-boleta-contrato" tabindex="-1" style="width: 100%; display:inline" id="codContratoBoleta" required>
+                            <option value=""></option>
+                        </select>
+                        <div class="error-message text-danger" style="display:none;">Este campo es obligatorio.</div>
+
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="control-label">Codigo Socio de Negocio *</label>
+                        <input type="text" id="cod_socio_neg_boleta" class="form-control" required disabled />
+                        <div class="error-message text-danger" style="display:none;">Este campo es obligatorio.</div>
+                    </div>
+
+                    <div class="">
+                        <table id="tabla-productos-contrato" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Codigo SAP</th>
+                                    <th>Codigo de Producto</th>
+                                    <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <button class="btn btn-default prevBtn btn-lg pull-left" type="button">Volver</button>
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Siguiente</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-3">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3> Paso 3</h3>
+                    <div class="form-group mb-3">
+                        <label class="control-label">Codigo de Distrito *</label>
+                        <select class="js-select-boleta-distrito" tabindex="-1" style="width: 100%; display:inline" id="codDistritoBoleta" required>
+                            <option value=""></option>
+                        </select>
+                        <div class="error-message text-danger" style="display:none;">Este campo es obligatorio.</div>
+
+                    </div>
+                    <div class="">
+                        <table id="tabla-distritos-boletas" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+
+                                    <th>Codigo U.E</th>
+                                    <th>Direccion</th>
+                                    <th>Raciones Predefinidas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <button class="btn btn-default prevBtn btn-lg pull-left" type="button">Volver</button>
+                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Siguiente</button>
+                </div>
+            </div>
+        </div>
+        <div class="row setup-content" id="step-4">
+            <div class="col-xs-12">
+                <div class="col-md-12">
+                    <h3> Paso 4</h3>
+                    <h5>Vista Previa de Boletas Generadas:</h5>
+                    <div id="preBoleta">
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="preBoletaModal" tabindex="-1" aria-labelledby="preBoletaModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="">Boleta N.-</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Modelo Boletas -->
+
+                                    <div class="container-fluid boleta p-0" id="content">
+                                        <div class="boleta-titulo-hora">
+                                            <h5>HORA ENTREGADA:</h5>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-3"></div>
+                                            <div class="col-4">
+                                                <div class="boleta-titulo text-center">
+                                                    <h5>GOBIERNO AUTONOMO MUNICIPAL DE LA PAZ</h5>
+                                                    <h5>ALIMENTO COMPLEMENTARIO ESCOLAR</h5>
+                                                    <h5>PARA UNA VIDA SANA</h5>
+                                                    <h5>ACTA DE ENTREGA Y RECEPCION</h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-5">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="boleta-titulo">
+                                                            <h5>Nro. Acta:</h5>
+                                                            <h5>Fecha de Entrega:</h5>
+                                                            <h5>Turno:</h5>
+                                                            <h5>Nro. Raciones Inicial:</h5>
+                                                            <h5>Nro. Raciones Primaria:</h5>
+                                                            <h5>TOTAL RACIONES:</h5>
+                                                            <h5>Nro. Raciones Secundaria:</h5>
+                                                            <h5>Nro. Raciones Especial:</h5>
+                                                            <h5>TOTAL RACIONES:</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="boleta-titulo">
+                                                            <h5 id="nroActaBoletaPrev"></h5>
+                                                            <h5 id="fechaEntregaBoletaPrev"></h5>
+                                                            <h5>:T</h5>
+                                                            <h5>:0</h5>
+                                                            <h5>:0</h5>
+                                                            <h5>:0</h5>
+                                                            <h5>:0</h5>
+                                                            <h5>:49</h5>
+                                                            <h5>:49</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="boleta-informacion">
+                                            <h5 class="d-inline">RUTA: </h5><h5 class="d-inline">9</h5><br />
+                                            <h5 class="d-inline">CODIGO: </h5><h5 class="d-inline">L-675</h5><br />
+                                            <h5 class="d-inline">CENTRO EDUCATIVO: </h5><h5 class="d-inline" id="descripcionBoletaPrev"></h5><br />
+                                            <h5 class="d-inline">DIRECCION: </h5>
+                                        </div>
+                                        <div class="boleta-body">
+                                            <table class="table table-borderless" id="preBoleta">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">FECHA PROG.</th>
+                                                        <th scope="col">LOTE</th>
+                                                        <th scope="col">RACIONES</th>
+                                                        <th scope="col">P/U.</th>
+                                                        <th scope="col">EMPRESA O ASOCIACION</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <h5>OBSERVACIONES: .................................................................................................</h5>
+                                        <br />
+                                        <div class="boleta-firmas">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h5>________________________</h5>
+                                                    <h5>ENTREGUE CONFORME PROV.</h5>
+                                                    <h5>NOMBRE: </h5>
+                                                    <h5>C.I.:__________________</h5>
+                                                </div>
+                                                <div class="col">
+                                                    <h5>________________________</h5>
+                                                    <h5>RECIBI CONFORME C.EDU.</h5>
+                                                    <h5>NOMBRE: </h5>
+                                                    <h5>C.I.:__________________</h5>
+                                                </div>
+                                                <div class="col">
+                                                    <h5>________________________</h5>
+                                                    <h5>SUPERVISOR SIREMU</h5>
+                                                    <h5>NOMBRE: </h5>
+                                                    <h5>C.I.:__________________</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <button class="btn btn-default prevBtn btn-lg pull-left" type="button">Volver</button>
+                    <button class="btn btn-success" type="submit" onclick="cargarBoletas(event);">Terminar!</button>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+        integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+
+<script>
+    $(document).ready(function () {
+
+        var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn'),
+            allPrevBtn = $('.prevBtn');
+
+        allWells.hide();
+
+        navListItems.click(function (e) {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                $item = $(this);
+
+            if (!$item.hasClass('disabled')) {
+                navListItems.removeClass('btn-primary').addClass('btn-default');
+                $item.addClass('btn-primary');
+                allWells.hide();
+                $target.show();
+            }
+        });
+
+        allNextBtn.click(function () {
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                curInputs = curStep.find("input[type='text'],input[type='number'],input[type='url'],input[type='date'], select"),
+                isValid = true;
+
+            $(".form-group").removeClass("has-error");
+            $(".error-message").hide();
+
+            for (var i = 0; i < curInputs.length; i++) {
+                var $input = $(curInputs[i]);
+
+                if ($input.is("select") && $input.val().trim() === "") {
+                    isValid = false;
+                    $input.closest(".form-group").addClass("has-error");
+                    $input.siblings(".error-message").show();
+                } else if (!$input[0].validity.valid) {
+                    isValid = false;
+                    $input.closest(".form-group").addClass("has-error");
+                    $input.siblings(".error-message").show();
+                }
+            }
+
+            if (isValid) {
+                nextStepWizard.removeAttr('disabled').trigger('click');
+            }
+        });
+
+        allPrevBtn.click(function () {
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                prevStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().prev().children("a");
+
+            $(".form-group").removeClass("has-error");
+            prevStepWizard.removeAttr('disabled').trigger('click');
+        });
+
+        $('div.setup-panel div a.btn-primary').trigger('click');
+
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<script src="~/vendor/select2/js/select2.full.min.js"></script>
+<script src="~/js/plugins-init/select2-init.js"></script>
+<script src="~/js/pages/boleta.js"></script>

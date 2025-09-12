@@ -1,0 +1,548 @@
+﻿
+<div class="min-h-screen">
+    <div class="">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                Cargar Unidades desde Excel
+            </h1>
+            <p class="text-slate-400 mt-2">Importa, compara y actualiza datos desde archivos Excel</p>
+        </div>
+
+        <div id="messageContainer" class="mb-6"></div>
+
+        <!-- Upload Section -->
+        <div class="bg-gray-800 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl mb-6" id="uploadSection">
+            <div class="bg-gradient-to-r from-blue-600/20 to-cyan-600/20 p-6 rounded-t-2xl border-b border-slate-700/50">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                    <h2 class="text-xl font-semibold text-white">Seleccionar Archivo Excel</h2>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-300 mb-3">Archivo Excel</label>
+                    <div class="relative">
+                        <input type="file"
+                               class="block w-full text-sm text-slate-300
+                                          file:mr-4 file:py-3 file:px-6
+                                          file:rounded-xl file:border-0
+                                          file:text-sm file:font-medium
+                                          file:bg-blue-600 file:text-white
+                                          hover:file:bg-blue-700
+                                          file:transition-colors file:duration-200
+                                          bg-slate-700/50 border border-slate-600/50
+                                          rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                                          backdrop-blur-sm"
+                               id="inputExcel"
+                               accept=".xlsx,.xls">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="compararDatos()"
+                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600
+                                       hover:from-blue-700 hover:to-cyan-700 text-white font-medium rounded-xl
+                                       transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        Comparar Datos
+                    </button>
+
+                    <a asp-controller="Unidad" asp-action="Index"
+                       class="inline-flex items-center px-6 py-3 bg-slate-700 hover:bg-slate-600
+                                  text-slate-300 font-medium rounded-xl transition-all duration-200
+                                  border border-slate-600/50 hover:border-slate-500">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Volver
+                    </a>
+                </div>
+
+                <div id="loadingDiv"
+                     class="hidden mt-6 text-center p-6 bg-blue-500/10 rounded-xl border border-blue-500/20">
+                    <div class="inline-flex items-center">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-400 mr-3"></div>
+                        <span class="text-blue-400 font-medium">Comparando datos...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Results Section -->
+        <div class="bg-gray-800 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-2xl hidden" id="comparisonSection">
+            <div class="bg-gradient-to-r from-amber-600/20 to-orange-600/20 p-6 rounded-t-2xl border-b border-slate-700/50">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                        <h2 class="text-xl font-semibold text-white">Comparación de Datos</h2>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="p-6">
+                <!-- Stats Cards -->
+                <div id="estadisticasComparacion" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6"></div>
+
+                <!-- Tabs Navigation -->
+                <div class="border-b border-slate-700/50 mb-6">
+                    <nav class="flex space-x-8">
+                        <button onclick="mostrarTab('nuevos')"
+                                class="tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200"
+                                id="tab-nuevos">
+                            Nuevos
+                        </button>
+                        <button onclick="mostrarTab('modificados')"
+                                class="tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200"
+                                id="tab-modificados">
+                            Modificados
+                        </button>
+                        <button onclick="mostrarTab('sin-cambios')"
+                                class="tab-btn py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200"
+                                id="tab-sin-cambios">
+                            Sin Cambios
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="tabContent" class="mb-6">
+                    <div id="content-nuevos" class="tab-content hidden">
+                        <div class="overflow-hidden rounded-xl border border-green-500/20 bg-green-500/5">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm" id="tablaNuevos">
+                                    <thead>
+                                        <tr class="bg-green-800/30">
+                                            <th class="px-4 py-3 text-left font-medium text-green-300 border-b border-green-700/30">Código</th>
+                                            <th class="px-4 py-3 text-left font-medium text-green-300 border-b border-green-700/30">Descripción</th>
+                                            <th class="px-4 py-3 text-left font-medium text-green-300 border-b border-green-700/30">Raciones</th>
+                                            <th class="px-4 py-3 text-left font-medium text-green-300 border-b border-green-700/30">Distrito</th>
+                                            <th class="px-4 py-3 text-left font-medium text-green-300 border-b border-green-700/30">Responsable</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-green-700/20"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="content-modificados" class="tab-content hidden">
+                        <div class="overflow-hidden rounded-xl border border-amber-500/20 bg-amber-500/5">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm" id="tablaModificados">
+                                    <thead>
+                                        <tr class="bg-amber-800/30">
+                                            <th class="px-4 py-3 text-left font-medium text-amber-300 border-b border-amber-700/30">Código</th>
+                                            <th class="px-4 py-3 text-left font-medium text-amber-300 border-b border-amber-700/30">Campo</th>
+                                            <th class="px-4 py-3 text-left font-medium text-amber-300 border-b border-amber-700/30">Valor Anterior</th>
+                                            <th class="px-4 py-3 text-left font-medium text-amber-300 border-b border-amber-700/30">Valor Nuevo</th>
+                                            <th class="px-4 py-3 text-left font-medium text-amber-300 border-b border-amber-700/30">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-amber-700/20"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="content-sin-cambios" class="tab-content hidden">
+                        <div class="overflow-hidden rounded-xl border border-slate-500/20 bg-slate-500/5">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm" id="tablaSinCambios">
+                                    <thead>
+                                        <tr class="bg-slate-800/50">
+                                            <th class="px-4 py-3 text-left font-medium text-slate-300 border-b border-slate-700/30">Código</th>
+                                            <th class="px-4 py-3 text-left font-medium text-slate-300 border-b border-slate-700/30">Descripción</th>
+                                            <th class="px-4 py-3 text-left font-medium text-slate-300 border-b border-slate-700/30">Raciones</th>
+                                            <th class="px-4 py-3 text-left font-medium text-slate-300 border-b border-slate-700/30">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-700/20"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="aplicarCambios()"
+                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600
+                                       hover:from-emerald-700 hover:to-teal-700 text-white font-medium rounded-xl
+                                       transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Aplicar Cambios
+                    </button>
+
+                    <button onclick="cancelarComparacion()"
+                            class="inline-flex items-center px-6 py-3 bg-slate-700 hover:bg-slate-600
+                                       text-slate-300 font-medium rounded-xl transition-all duration-200
+                                       border border-slate-600/50 hover:border-slate-500">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let datosComparacion = null;
+    let tabActual = 'nuevos';
+
+    function compararDatos() {
+        const input = document.getElementById('inputExcel');
+
+        if (!input.files[0]) {
+            showMessage('Por favor selecciona un archivo Excel', 'error');
+            return;
+        }
+
+        const loadingDiv = document.getElementById('loadingDiv');
+        const comparisonSection = document.getElementById('comparisonSection');
+
+        loadingDiv.classList.remove('hidden');
+        comparisonSection.classList.add('hidden');
+
+        const formData = new FormData();
+        formData.append('ArchivoExcel', input.files[0]);
+
+        fetch("/Unidad/CompararDatos", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en el servidor');
+                }
+                return response.json();
+            })
+            .then(data => {
+                loadingDiv.classList.add('hidden');
+                datosComparacion = data;
+                mostrarResultadosComparacion(data);
+                comparisonSection.classList.remove('hidden');
+                comparisonSection.scrollIntoView({ behavior: 'smooth' });
+                showMessage('Comparación completada', 'success');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingDiv.classList.add('hidden');
+                showMessage('Error al comparar datos: ' + error.message, 'error');
+            });
+    }
+
+    function mostrarResultadosComparacion(data) {
+        // Estadísticas
+        const statsHtml = `
+                    <div class="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
+                        <div class="text-2xl font-bold text-green-400">${data.totalNuevos}</div>
+                        <div class="text-sm text-slate-400">Nuevos</div>
+                    </div>
+                    <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
+                        <div class="text-2xl font-bold text-amber-400">${data.totalModificados}</div>
+                        <div class="text-sm text-slate-400">Modificados</div>
+                    </div>
+                    <div class="bg-slate-500/10 border border-slate-500/20 rounded-xl p-4">
+                        <div class="text-2xl font-bold text-slate-400">${data.totalSinCambios}</div>
+                        <div class="text-sm text-slate-400">Sin Cambios</div>
+                    </div>
+                    <div class="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+                        <div class="text-2xl font-bold text-blue-400">${data.cambios.length}</div>
+                        <div class="text-sm text-slate-400">Total</div>
+                    </div>
+                `;
+        document.getElementById('estadisticasComparacion').innerHTML = statsHtml;
+
+        // Llenar tablas
+        llenarTablaNuevos(data.cambios.filter(c => c.tipoCambio === 'NUEVO'));
+        llenarTablaModificados(data.cambios.filter(c => c.tipoCambio === 'MODIFICADO'));
+        llenarTablaSinCambios(data.cambios.filter(c => c.tipoCambio === 'SIN_CAMBIOS'));
+
+        // Mostrar tab por defecto
+        mostrarTab('nuevos');
+    }
+
+    function llenarTablaNuevos(nuevos) {
+        const tbody = document.querySelector('#tablaNuevos tbody');
+        tbody.innerHTML = '';
+
+        nuevos.forEach(item => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-green-500/10 transition-colors duration-150';
+            row.innerHTML = `
+                        <td class="px-4 py-3 text-green-300 font-medium">${item.unidadExcel.codigo}</td>
+                        <td class="px-4 py-3 text-slate-300">${item.unidadExcel.descripcion}</td>
+                        <td class="px-4 py-3 text-slate-300">${item.unidadExcel.raciones}</td>
+                        <td class="px-4 py-3 text-slate-300">${item.unidadExcel.distrito}</td>
+                        <td class="px-4 py-3 text-slate-300">${item.unidadExcel.responzable}</td>
+                    `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function llenarTablaModificados(modificados) {
+        const tbody = document.querySelector('#tablaModificados tbody');
+        tbody.innerHTML = '';
+
+        console.log('Datos modificados:', modificados); // Para debug
+
+        modificados.forEach(item => {
+            console.log('Item modificado:', item); // Para debug
+
+            // Mapear nombres de campos del backend al frontend
+            const camposMapeados = {
+                'Descripcion': 'descripcion',
+                'Raciones': 'raciones',
+                'Direccion': 'direccion',
+                'Turno': 'turno',
+                'Responzable': 'responzable',
+                'CodDistrito': 'codDistrito',
+                'Distrito': 'distrito',
+                'Telefono': 'telefono',
+                'Nivel': 'nivel',
+                'Ruta': 'ruta'
+            };
+
+            // Iterar sobre los valores anteriores para encontrar diferencias
+            if (item.valoresAnteriores && item.valoresNuevos) {
+                Object.keys(item.valoresAnteriores).forEach(campo => {
+                    if (campo === 'Codigo') return; // Skip código
+
+                    const valorAnterior = item.valoresAnteriores[campo] || '';
+                    const valorNuevo = item.valoresNuevos[campo] || '';
+
+                    if (String(valorAnterior).trim() !== String(valorNuevo).trim()) {
+                        const row = document.createElement('tr');
+                        row.className = 'hover:bg-amber-500/10 transition-colors duration-150';
+
+                        // Usar el nombre mapeado o el original
+                        const nombreCampo = camposMapeados[campo] || campo.toLowerCase();
+
+                        row.innerHTML = `
+                                    <td class="px-4 py-3 text-amber-300 font-medium">${item.codigo}</td>
+                                    <td class="px-4 py-3 text-slate-300 capitalize">${nombreCampo}</td>
+                                    <td class="px-4 py-3 text-red-400">${valorAnterior || 'Vacío'}</td>
+                                    <td class="px-4 py-3 text-green-400">${valorNuevo || 'Vacío'}</td>
+                                    <td class="px-4 py-3">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400">
+                                            Cambio
+                                        </span>
+                                    </td>
+                                `;
+                        tbody.appendChild(row);
+                    }
+                });
+            }
+        });
+
+        // Si no hay filas, mostrar mensaje
+        if (tbody.children.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                        <td colspan="5" class="px-4 py-8 text-center text-slate-400">
+                            No se encontraron cambios específicos
+                        </td>
+                    `;
+            tbody.appendChild(row);
+        }
+    }
+
+    function llenarTablaSinCambios(sinCambios) {
+        const tbody = document.querySelector('#tablaSinCambios tbody');
+        tbody.innerHTML = '';
+
+        sinCambios.forEach(item => {
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-slate-500/10 transition-colors duration-150';
+            row.innerHTML = `
+                        <td class="px-4 py-3 text-slate-300 font-medium">${item.codigo}</td>
+                        <td class="px-4 py-3 text-slate-300">${item.unidadExcel.descripcion}</td>
+                        <td class="px-4 py-3 text-slate-300">${item.unidadExcel.raciones}</td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-500/10 text-slate-400">
+                                Sin Cambios
+                            </span>
+                        </td>
+                    `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function mostrarTab(tab) {
+        // Ocultar todos los contenidos de tabs
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+
+        // Resetear estilos de botones
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.className = 'tab-btn py-2 px-1 border-b-2 border-transparent font-medium text-sm text-slate-400 hover:text-slate-300 transition-colors duration-200';
+        });
+
+        // Mostrar contenido activo
+        document.getElementById(`content-${tab}`).classList.remove('hidden');
+
+        // Activar botón correspondiente
+        const activeBtn = document.getElementById(`tab-${tab}`);
+        activeBtn.className = 'tab-btn py-2 px-1 border-b-2 border-blue-500 font-medium text-sm text-blue-400 transition-colors duration-200';
+
+        tabActual = tab;
+    }
+
+    function aplicarCambios() {
+        if (!datosComparacion) {
+            Swal.fire({
+                title: "¡Error!",
+                text: "No hay datos para procesar",
+                icon: "error",
+                background: '#1e293b',
+                color: '#f8fafc',
+                confirmButtonColor: '#dc2626'
+            });
+            return;
+        }
+
+        // Confirmar antes de aplicar con SweetAlert2
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Estás seguro de aplicar todos los cambios? Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            background: '#1e293b',
+            color: '#f8fafc',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Sí, aplicar cambios',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const input = document.getElementById('inputExcel');
+                const formData = new FormData();
+                formData.append('ArchivoExcel', input.files[0]);
+
+                // Mostrar loading
+                Swal.fire({
+                    title: 'Aplicando cambios...',
+                    text: 'Por favor espera mientras procesamos los datos',
+                    icon: 'info',
+                    background: '#1e293b',
+                    color: '#f8fafc',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                fetch("/Unidad/AplicarCambios", {
+                    method: "POST",
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error en el servidor');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        Swal.fire({
+                            title: "¡Éxito!",
+                            text: `Cambios aplicados correctamente. ${data.nuevos} nuevos registros, ${data.modificados} modificados`,
+                            icon: "success",
+                            background: '#1e293b',
+                            color: '#f8fafc',
+                            confirmButtonColor: '#059669',
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+
+                        // Ocultar sección de comparación después de aplicar
+                        setTimeout(() => {
+                            document.getElementById('comparisonSection').classList.add('hidden');
+                            document.getElementById('inputExcel').value = '';
+                            datosComparacion = null;
+                        }, 3000);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: "¡Error!",
+                            text: `Error al aplicar cambios: ${error.message}`,
+                            icon: "error",
+                            background: '#1e293b',
+                            color: '#f8fafc',
+                            confirmButtonColor: '#dc2626'
+                        });
+                    });
+            }
+        });
+    }
+
+    function cancelarComparacion() {
+        document.getElementById('comparisonSection').classList.add('hidden');
+        document.getElementById('inputExcel').value = '';
+        datosComparacion = null;
+        showMessage('Operación cancelada', 'warning');
+    }
+
+    
+
+    function showMessage(message, type) {
+        const colors = {
+            success: 'from-emerald-500/20 to-teal-500/20 border-emerald-500/30 text-emerald-300',
+            error: 'from-red-500/20 to-pink-500/20 border-red-500/30 text-red-300',
+            warning: 'from-yellow-500/20 to-orange-500/20 border-yellow-500/30 text-yellow-300',
+            info: 'from-blue-500/20 to-cyan-500/20 border-blue-500/30 text-blue-300'
+        };
+
+        const icons = {
+            success: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>`,
+            error: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>`,
+            warning: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>`,
+            info: `<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>`
+        };
+
+        const messageHtml = `
+                    <div class="bg-gradient-to-r ${colors[type]} border rounded-xl p-4 mb-4 backdrop-blur-sm">
+                        <div class="flex items-center">
+                            ${icons[type]}
+                            <div class="font-medium">${message}</div>
+                        </div>
+                    </div>
+                `;
+
+        const container = document.getElementById('messageContainer');
+        container.innerHTML = messageHtml;
+
+        // Auto-hide después de 5 segundos para mensajes que no sean de error
+        if (type !== 'error') {
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+    }
+
+    // Inicializar tooltips de Flowbite
+    document.addEventListener('DOMContentLoaded', function () {
+        // Inicializar componentes de Flowbite si están disponibles
+        if (typeof Flowbite !== 'undefined') {
+            Flowbite.start();
+        }
+    });
+</script>

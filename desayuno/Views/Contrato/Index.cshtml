@@ -1,0 +1,306 @@
+﻿<!-- Enlace CDN para Selectize -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="space-y-6">
+    <!-- Header con título y búsqueda -->
+    <div class="bg-gray-800 rounded-xl p-6 shadow-2xl border border-gray-700">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-3 bg-blue-600 rounded-lg">
+                    <i class="fas fa-file-contract text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-white">Lista de Contratos</h1>
+                    <p class="text-gray-400 text-sm">Administra los contratos del sistema</p>
+                </div>
+            </div>
+
+            <!-- Barra de búsqueda y botón -->
+            <div class="flex items-center gap-4">
+                 <!--<div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <i class="fas fa-search text-gray-400"></i>
+                    </div>
+                    <input type="text" 
+                           class="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 placeholder-gray-400 transition-colors" 
+                           placeholder="Buscar contratos..." 
+                           id="searchContratos">
+                </div>-->
+
+                <button id="btnNuevoContrato"
+                        type="button"
+                        data-modal-target="agregarContratoModal"
+                        data-modal-toggle="agregarContratoModal"
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:z-10 focus:ring-4 focus:ring-blue-300 transition-all duration-200 hover:scale-105 hover:shadow-lg">
+                    <i class="fas fa-plus mr-2"></i>
+                    Nuevo Contrato
+                </button>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Tabla de contratos -->
+<div class="bg-gray-800 rounded-xl shadow-2xl border border-gray-700 overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left" id="contratos-container">
+            <thead class="text-xs text-gray-300 uppercase bg-gray-700 border-b border-gray-600">
+                <tr>
+                    <th scope="col" class="px-6 py-4 font-medium">
+                        <i class="fas fa-hashtag mr-2 text-blue-400"></i>
+                        Nro. Contrato
+                    </th>
+                    <th scope="col" class="px-6 py-4 font-medium">
+                        <i class="fas fa-user-tie mr-2 text-blue-400"></i>
+                        Cliente
+                    </th>
+                    <th scope="col" class="px-6 py-4 font-medium text-center">
+                        <i class="fas fa-box mr-2 text-blue-400"></i>
+                        Productos
+                    </th>
+                    <th scope="col" class="px-6 py-4 font-medium text-center">
+                        <i class="fas fa-dollar-sign mr-2 text-blue-400"></i>
+                        Total
+                    </th>
+                    <th scope="col" class="px-6 py-4 font-medium text-center">
+                        <i class="fas fa-cogs mr-2 text-blue-400"></i>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loading State -->
+                <tr>
+                    <td colspan="5" class="text-center py-12 text-gray-400">
+                        <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+                        <br>
+                        <p class="text-lg">Cargando contratos...</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+<!-- Modal Agregar Contrato -->
+<div id="agregarContratoModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-6xl max-h-full">
+        <div class="relative bg-gray-800 rounded-xl shadow-2xl border border-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between px-5 py-3 border-b border-gray-600 rounded-t-xl">
+                <h3 class="text-lg font-semibold text-white">
+                    <i class="fas fa-plus-circle mr-2 text-blue-400 text-sm"></i>
+                    Agregar Contrato
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-600 hover:text-white rounded-lg text-sm w-7 h-7 inline-flex justify-center items-center transition-colors" data-modal-hide="agregarContratoModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="p-5">
+                <div id="App" class="grid grid-cols-1 lg:grid-cols-5 gap-5">
+                    <!-- Formulario de producto - Más compacto -->
+                    <div class="lg:col-span-2">
+                        <form id="product-form" class="space-y-4">
+                            <!-- Socio de Negocio -->
+                            <div class="bg-gray-900 rounded-lg p-3 border border-gray-600">
+                                <div class="flex items-center mb-3">
+                                    <div class="p-1.5 bg-blue-600 rounded mr-2">
+                                        <i class="fas fa-user-tie text-white text-xs"></i>
+                                    </div>
+                                    <h5 class="text-sm font-semibold text-white">Cliente & Contrato</h5>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block mb-1 text-xs font-medium text-gray-300">Cliente</label>
+                                        <select class="select-cliente bg-gray-700 border border-gray-600 text-white text-xs rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 transition-colors" id="inputCodSocioNeg" required>
+                                            <option value="">Seleccionar cliente...</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block mb-1 text-xs font-medium text-gray-300">Nro. Contrato</label>
+                                        <input type="text" id="inputNumeroContrato" 
+                                               class="bg-gray-700 border border-gray-600 text-white text-xs rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 placeholder-gray-400 transition-colors" 
+                                               placeholder="Número de contrato" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Agregar Item -->
+                            <div class="bg-gray-900 rounded-lg p-3 border border-gray-600">
+                                <div class="flex items-center mb-3">
+                                    <div class="p-1.5 bg-green-600 rounded mr-2">
+                                        <i class="fas fa-box text-white text-xs"></i>
+                                    </div>
+                                    <h5 class="text-sm font-semibold text-white">Nuevo Producto</h5>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block mb-1 text-xs font-medium text-gray-300">Producto</label>
+                                        <select class="select-prodcont bg-gray-700 border border-gray-600 text-white text-xs rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 transition-colors" id="codProducto" required>
+                                            <option value="">Seleccionar producto...</option>
+                                        </select>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label class="block mb-1 text-xs font-medium text-gray-300">Cantidad</label>
+                                            <input type="number" id="cantidad" 
+                                                   class="bg-gray-700 border border-gray-600 text-white text-xs rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 placeholder-gray-400 transition-colors" 
+                                                   placeholder="0" min="1" max="200000000" required>
+                                        </div>
+                                        <div>
+                                            <label class="block mb-1 text-xs font-medium text-gray-300">Precio (Bs)</label>
+                                            <input type="number" id="precio"
+                                                   step="0.01"
+                                                   class="bg-gray-700 border border-gray-600 text-white text-xs rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 block w-full p-2 placeholder-gray-400 transition-colors"
+                                                   placeholder="0.00"
+                                                   min="0.01"
+                                                   max="999999999999999999.99"
+                                                   required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" 
+                                            class="w-full text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded text-xs px-3 py-2 text-center transition-all duration-200 transform hover:scale-[1.02]">
+                                        <i class="fas fa-plus mr-1"></i>Agregar Producto
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Lista de productos - Más espacio -->
+                    <div class="lg:col-span-3">
+                        <div class="bg-gray-900 rounded-lg border border-gray-600 h-full flex flex-col">
+                            <div class="flex items-center justify-between px-3 py-2 border-b border-gray-600">
+                                <div class="flex items-center">
+                                    <div class="p-1.5 bg-purple-600 rounded mr-2">
+                                        <i class="fas fa-list text-white text-xs"></i>
+                                    </div>
+                                    <h5 class="text-sm font-semibold text-white">Lista de Productos</h5>
+                                </div>
+                                <div class="text-xs text-gray-400" id="product-counter">
+                                    <i class="fas fa-box mr-1"></i>
+                                    <span id="product-count">0</span> items
+                                </div>
+                            </div>
+                            <div id="product-list" class="flex-1 min-h-[380px]">
+                                <div class="text-center py-16 text-gray-400">
+                                    <i class="fas fa-box-open text-3xl mb-3 opacity-50"></i>
+                                    <p class="text-xs">No hay productos agregados</p>
+                                    <p class="text-xs text-gray-500">Usa el formulario para agregar productos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="flex justify-end gap-2 px-5 py-3 border-t border-gray-600 bg-gray-750 rounded-b-xl">
+                <button type="button" 
+                        data-modal-hide="agregarContratoModal"
+                        class="py-2 px-4 text-xs font-medium text-gray-300 focus:outline-none bg-gray-700 rounded border border-gray-600 hover:bg-gray-600 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-700 transition-colors">
+                    <i class="fas fa-times mr-1"></i>Cancelar
+                </button>
+                <button type="submit" 
+                        id="btnAgregarContrato"
+                        class="text-white inline-flex items-center bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:ring-2 focus:outline-none focus:ring-green-300 font-medium rounded text-xs px-4 py-2 text-center transition-all duration-200 transform hover:scale-[1.02]">
+                    <i class="fas fa-save mr-1"></i>Guardar Contrato
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ver Productos Contrato -->
+<div id="verProductoContratoModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <div class="relative bg-gray-800 rounded-lg shadow-2xl border border-gray-700">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b border-gray-600 rounded-t">
+                <h3 class="text-xl font-semibold text-white">
+                    <i class="fas fa-eye mr-2 text-blue-400"></i>
+                    Lista de Productos Cargados
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-600 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors" data-modal-hide="verProductoContratoModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-300">
+                        <thead class="text-xs text-gray-300 uppercase bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Cod Producto</th>
+                                <th scope="col" class="px-6 py-3">Cantidad</th>
+                                <th scope="col" class="px-6 py-3">Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="verProductosBody">
+                            <!-- Contenido dinámico -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="flex justify-end p-6 border-t border-gray-600">
+                <button type="button" 
+                        data-modal-hide="verProductoContratoModal"
+                        class="py-2.5 px-5 text-sm font-medium text-gray-300 focus:outline-none bg-gray-700 rounded-lg border border-gray-600 hover:bg-gray-600 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-700 transition-colors">
+                    <i class="fas fa-times mr-2"></i>Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Productos Contrato -->
+<div id="editarProductoContratoModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50">
+    <div class="relative p-4 w-full max-w-4xl max-h-full">
+        <div class="relative bg-slate-800 rounded-lg shadow-lg border border-slate-700">
+            <div class="flex items-center justify-between p-4 border-b border-slate-700 rounded-t">
+                <h3 class="text-lg font-semibold text-white flex items-center">
+                    <i class="fas fa-edit mr-2 text-blue-400"></i>
+                    Editar Productos del Contrato
+                </h3>
+                <button type="button" class="text-slate-400 bg-transparent hover:bg-slate-700 hover:text-white rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center" data-modal-hide="editarProductoContratoModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+            <form id="formEditarProductos">
+                <div class="p-4">
+                    <div class="max-h-80 overflow-y-auto">
+                        <div id="editarProductosBody" class="space-y-3">
+                            <!-- Contenido dinámico -->
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 p-4 border-t border-slate-700 rounded-b">
+                    <button type="button" 
+                            data-modal-hide="editarProductoContratoModal"
+                            class="py-2 px-4 text-sm font-medium text-slate-300 bg-slate-700 rounded border border-slate-600 hover:bg-slate-600 hover:text-white transition-colors">
+                        <i class="fas fa-times mr-1"></i>Cerrar
+                    </button>
+                    <button type="submit" 
+                            id="guardarProductosContrato"
+                            class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded text-sm px-4 py-2 transition-colors">
+                        <i class="fas fa-save mr-1"></i>Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/js/pages/contrato.js"></script>

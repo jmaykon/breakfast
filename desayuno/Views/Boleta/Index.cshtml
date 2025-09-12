@@ -1,0 +1,205 @@
+﻿<!-- Contenido Principal -->
+<div class="space-y-6">
+    <!-- Header con título -->
+    <div class="bg-slate-800 rounded-lg p-6 shadow-md border border-slate-700">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-3 bg-blue-600/20 rounded-lg border border-blue-500/30">
+                    <i class="fas fa-receipt text-blue-400 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-white">Lista de Cargas</h1>
+                    <p class="text-slate-300 text-sm">Gestiona las boletas y cargas del sistema</p>
+                </div>
+            </div>
+
+            <!-- Botón Agregar -->
+            <a asp-controller="Boleta" asp-action="Registro"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/30 transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Nueva Carga
+            </a>
+        </div>
+    </div>
+
+    <!-- Container de Boletas -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="boletas-container">
+        <!-- Las cargas se cargarán dinámicamente aquí -->
+    </div>
+</div>
+
+<!-- Modal Editar Cantidades (Individual) -->
+<div id="editarBoletaIndividualModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <div class="relative bg-slate-800 rounded-lg shadow-lg border border-slate-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-5 border-b border-slate-700 rounded-t">
+                <h3 class="text-xl font-semibold text-white flex items-center">
+                    <i class="fas fa-list mr-2 text-blue-400"></i>
+                    Lista de Productos Cargados
+                </h3>
+                <button type="button" class="text-slate-400 bg-transparent hover:bg-slate-700 hover:text-white rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center" data-modal-hide="editarBoletaIndividualModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-5 space-y-4">
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-left text-slate-300">
+                        <thead class="text-xs text-slate-400 uppercase bg-slate-700">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Código Producto</th>
+                                <th scope="col" class="px-6 py-3">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productosBoletaIndividual">
+                            <!-- Contenido dinámico -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex justify-end gap-3 p-5 border-t border-slate-700 rounded-b">
+                <button type="button" data-modal-hide="editarBoletaIndividualModal" class="py-2.5 px-5 text-sm font-medium text-slate-300 bg-slate-700 rounded-lg border border-slate-600 hover:bg-slate-600 hover:text-white focus:ring-4 focus:ring-blue-500/30">
+                    <i class="fas fa-times mr-2"></i>Cerrar
+                </button>
+                <button type="button" onclick="actualizarCantidades()" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/30 font-medium rounded-lg text-sm px-5 py-2.5">
+                    <i class="fas fa-save mr-2"></i>Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Fechas -->
+<div id="editarBoletaModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <div class="relative bg-slate-800 rounded-lg shadow-lg border border-slate-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-5 border-b border-slate-700 rounded-t">
+                <h3 class="text-xl font-semibold text-white flex items-center">
+                    <i class="fas fa-calendar-edit mr-2 text-blue-400"></i>
+                    Editar Fechas
+                </h3>
+                <button type="button" class="text-slate-400 bg-transparent hover:bg-slate-700 hover:text-white rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center" data-modal-hide="editarBoletaModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form class="p-5 space-y-4">
+                <input id="nroCargaEditar" type="hidden" />
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-200">
+                        <i class="fas fa-calendar mr-2 text-blue-400"></i>Fecha Despacho:
+                    </label>
+                    <input id="editarFechaDespachoBoleta" type="date" required class="bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-200">
+                        <i class="fas fa-calendar mr-2 text-blue-400"></i>Fecha Entrega:
+                    </label>
+                    <input id="editarFechaEntregaBoleta" type="date" required class="bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-slate-200">
+                        <i class="fas fa-calendar mr-2 text-blue-400"></i>Fecha Consolidado:
+                    </label>
+                    <input id="editarFechaConsolidadoBoleta" type="date" required class="bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+                </div>
+            </form>
+            <!-- Modal footer -->
+            <div class="flex justify-end gap-3 p-5 border-t border-slate-700 rounded-b">
+                <button type="button" data-modal-hide="editarBoletaModal" class="py-2.5 px-5 text-sm font-medium text-slate-300 bg-slate-700 rounded-lg border border-slate-600 hover:bg-slate-600 hover:text-white focus:ring-4 focus:ring-blue-500/30">
+                    <i class="fas fa-times mr-2"></i>Cerrar
+                </button>
+                <button type="button" onclick="actualizarFechas()" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/30 font-medium rounded-lg text-sm px-5 py-2.5">
+                    <i class="fas fa-save mr-2"></i>Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Duplicar -->
+<div id="duplicarBoletaModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50">
+    <div class="relative p-4 w-full max-w-4xl max-h-full">
+        <div class="relative bg-slate-800 rounded-lg shadow-lg border border-slate-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-5 border-b border-slate-700 rounded-t">
+                <h3 class="text-xl font-semibold text-white flex items-center">
+                    <i class="fas fa-copy mr-2 text-blue-400"></i>
+                    Duplicar Carga
+                </h3>
+                <button type="button" class="text-slate-400 bg-transparent hover:bg-slate-700 hover:text-white rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center" data-modal-hide="duplicarBoletaModal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-slate-200">
+                                <i class="fas fa-calendar mr-2 text-blue-400"></i>Fecha Despacho:
+                            </label>
+                            <input id="duplicarFechaDespachoBoleta" type="date" class="bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-slate-200">
+                                <i class="fas fa-calendar mr-2 text-blue-400"></i>Fecha Entrega:
+                            </label>
+                            <input id="duplicarFechaEntregaBoleta" type="date" class="bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </div>
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-slate-200">
+                                <i class="fas fa-calendar mr-2 text-blue-400"></i>Fecha Consolidado:
+                            </label>
+                            <input id="duplicarFechaConsolidadoBoleta" type="date" class="bg-slate-700 border border-slate-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        </div>
+                    </div>
+                    <div>
+                        <h5 class="block mb-2 text-sm font-medium text-slate-200">
+                            <i class="fas fa-list mr-2 text-blue-400"></i>Seleccionar Productos:
+                        </h5>
+                        <div id="productosContainer" class="max-h-80 overflow-y-auto bg-slate-700 rounded-lg border border-slate-600">
+                            <table class="w-full text-sm text-left text-slate-300">
+                                <thead class="text-xs text-slate-400 uppercase bg-slate-600 sticky top-0">
+                                    <tr>
+                                        <th class="px-3 py-3 w-12">#</th>
+                                        <th class="px-3 py-3">Producto</th>
+                                        <th class="px-3 py-3 w-24">Cantidad</th>
+                                        <th class="px-3 py-3 w-12">Sel.</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productosLista">
+                                    <!-- Contenido dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex justify-end gap-3 p-5 border-t border-slate-700 rounded-b">
+                <button type="button" data-modal-hide="duplicarBoletaModal" class="py-2.5 px-5 text-sm font-medium text-slate-300 bg-slate-700 rounded-lg border border-slate-600 hover:bg-slate-600 hover:text-white focus:ring-4 focus:ring-blue-500/30">
+                    <i class="fas fa-times mr-2"></i>Cerrar
+                </button>
+                <button type="button" onclick="confirmarDuplicacion()" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/30 font-medium rounded-lg text-sm px-5 py-2.5">
+                    <i class="fas fa-copy mr-2"></i>Duplicar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/pages/boletaPrincipal.js"></script>
