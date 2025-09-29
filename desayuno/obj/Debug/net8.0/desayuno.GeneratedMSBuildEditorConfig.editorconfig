@@ -1,0 +1,109 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = desayuno
+build_property.RootNamespace = desayuno
+build_property.ProjectDir = C:\Users\Mexbol\Documents\BOLETAS_SOALPRO-master\BOLETAS_SOALPRO-master\desayuno\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Mexbol\Documents\BOLETAS_SOALPRO-master\BOLETAS_SOALPRO-master\desayuno
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Boleta/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9sZXRhXEVkaXRhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Boleta/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9sZXRhXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Boleta/Registro.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9sZXRhXFJlZ2lzdHJvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Boleta/verBoletaIndividual.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9sZXRhXHZlckJvbGV0YUluZGl2aWR1YWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Clientes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50ZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Contrato/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhdG9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Distrito/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzdHJpdG9cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Error/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Error/NotFound.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcTm90Rm91bmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Inicio/IniciarSesion.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5pY2lvXEluaWNpYXJTZXNpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Prodcont/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZGNvbnRcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Productos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdG9zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Unidad/CargarExcel.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVW5pZGFkXENhcmdhckV4Y2VsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Unidad/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVW5pZGFkXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Usuarios/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXN1YXJpb3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Mexbol/Documents/BOLETAS_SOALPRO-master/BOLETAS_SOALPRO-master/desayuno/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-pw0b2khtsd
